@@ -1,21 +1,27 @@
 {
   "expo": {
-    "name": "spend-ease",
-    "slug": "spend-ease",
-    "scheme": "acme",
-    "userInterfaceStyle": "automatic",
-    "orientation": "default",
-    "icon": "./public/images/icon.png",
+    "name": "Finote",
+    "slug": "finote",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./public/images/favicon.png",
+    "scheme": "finote",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aayushbharti.finote",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./public/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#171717"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.aayushbharti.spendease"
+      "package": "com.aayushbharti.finote"
     },
     "web": {
       "bundler": "metro",
@@ -30,7 +36,7 @@
           "image": "./public/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#171717"
         }
       ]
     ],
@@ -40,9 +46,8 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "58de0d5b-1863-4359-a1cf-059936fe619e"
+        "projectId": "31e19f61-270e-4d8d-bd95-1af9d39bd933"
       }
-    },
-    "owner": "aayushbharti"
+    }
   }
 }
