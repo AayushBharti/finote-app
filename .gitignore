@@ -10,12 +10,22 @@ web-build/
 expo-env.d.ts
 
 # Native
+.kotlin/
 *.orig.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
+
+ios
+
+# env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Metro
 .metro-health-check*
