@@ -13,7 +13,7 @@ const Index = () => {
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source={require("../public/images/splashImage.png")}
+        source={require("../public/images/splash-icon.png")}
         resizeMode="contain"
       />
     </View>

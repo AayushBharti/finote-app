@@ -70,7 +70,7 @@ const ForgotPassword = () => {
             }
           />
           <Button onPress={handleSubmit} loading={loading}>
-            <Typo fontWeight={"700"} color={colors.black} size={21}>
+            <Typo fontWeight={"700"} color={colors.white} size={21}>
               Reset Password
             </Typo>
           </Button>
