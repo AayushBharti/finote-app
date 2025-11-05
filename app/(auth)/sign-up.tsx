@@ -1,37 +1,59 @@
-import { Alert, Image, Pressable, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
-import ScreenWrapper from "@/components/screen-wrapper";
-import Typo from "@/components/typo";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
-import Input from "@/components/input";
-import * as Icons from "phosphor-react-native";
-import Button from "@/components/button";
-import { useRouter } from "expo-router";
-import { useAuth } from "@/context/auth-context";
+import { Alert, Image, Pressable, StyleSheet, View } from "react-native"
+import React, { useState } from "react"
+import ScreenWrapper from "@/components/screen-wrapper"
+import Typo from "@/components/typo"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { verticalScale } from "@/utils/styling"
+import Input from "@/components/input"
+import * as Icons from "phosphor-react-native"
+import Button from "@/components/button"
+import { useRouter } from "expo-router"
+import { useAuth } from "@/context/auth-context"
+import { z, ZodError } from "zod"
+
+const signUpSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.email({ message: "Please enter a valid email" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+})
 
 const SignUp = () => {
-  const router = useRouter();
-  const { signUp } = useAuth();
+  const router = useRouter()
+  const { signUp } = useAuth()
 
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
-    if (!email || !password || !name) {
-      Alert.alert("Warning", "Please fill all the fields");
-      return;
+    try {
+      const parsed = signUpSchema.parse({ name, email, password })
+
+      setLoading(true)
+      const res = await signUp(
+        parsed.email.trim(),
+        parsed.password,
+        parsed.name.trim(),
+      )
+
+      if (!res.success) {
+        Alert.alert("Error", res.msg || "Something went wrong")
+      } else {
+        router.replace("/(tabs)")
+      }
+    } catch (err) {
+      if (err instanceof ZodError) {
+        Alert.alert("Validation Error", err.issues[0].message)
+      } else {
+        Alert.alert("Error", "Network error. Please try again.")
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(true);
-    const res = await signUp(email, password, name);
-    setLoading(false);
-    if (!res.success) {
-      Alert.alert("Error", res.msg);
-    }
-    router.replace("/(tabs)");
-  };
+  }
 
   return (
     <ScreenWrapper>
@@ -42,7 +64,7 @@ const SignUp = () => {
             style={styles.logo}
           />
           <Typo size={42} fontWeight={"800"}>
-            Spend Ease
+            Finote
           </Typo>
           <Typo size={18} color={colors.neutral400}>
             Spend smarter, Live easy
@@ -53,7 +75,7 @@ const SignUp = () => {
           <Input
             placeholder="Enter your name"
             onChangeText={(value) => {
-              setName(value);
+              setName(value)
             }}
             icon={
               <Icons.User
@@ -66,7 +88,7 @@ const SignUp = () => {
           <Input
             placeholder="Enter your email"
             onChangeText={(value) => {
-              setEmail(value);
+              setEmail(value)
             }}
             icon={
               <Icons.At
@@ -80,7 +102,7 @@ const SignUp = () => {
             placeholder="Enter your password"
             type="password"
             onChangeText={(value) => {
-              setPassword(value);
+              setPassword(value)
             }}
             icon={
               <Icons.Lock
@@ -91,7 +113,7 @@ const SignUp = () => {
             }
           />
           <Button onPress={handleSubmit} loading={loading}>
-            <Typo fontWeight={"700"} color={colors.black} size={21}>
+            <Typo fontWeight={"700"} color={colors.white} size={21}>
               Create an account
             </Typo>
           </Button>
@@ -122,10 +144,10 @@ const SignUp = () => {
         </View> */}
       </View>
     </ScreenWrapper>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp
 
 const styles = StyleSheet.create({
   container: {
@@ -173,4 +195,4 @@ const styles = StyleSheet.create({
     width: verticalScale(40),
     height: verticalScale(40),
   },
-});
+})
