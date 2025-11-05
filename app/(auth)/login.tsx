@@ -1,35 +1,50 @@
-import { Alert, Image, Pressable, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
-import ScreenWrapper from "@/components/screen-wrapper";
-import Typo from "@/components/typo";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
-import Input from "@/components/input";
-import * as Icons from "phosphor-react-native";
-import Button from "@/components/button";
-import { useRouter } from "expo-router";
-import { useAuth } from "@/context/auth-context";
+import { Alert, Image, Pressable, StyleSheet, View } from "react-native"
+import React, { useState } from "react"
+import ScreenWrapper from "@/components/screen-wrapper"
+import Typo from "@/components/typo"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { verticalScale } from "@/utils/styling"
+import Input from "@/components/input"
+import * as Icons from "phosphor-react-native"
+import Button from "@/components/button"
+import { useRouter } from "expo-router"
+import { useAuth } from "@/context/auth-context"
+import { z, ZodError } from "zod"
+
+const loginSchema = z.object({
+  email: z.email({ message: "Please enter a valid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+})
 
 const Login = () => {
-  const router = useRouter();
-  const { login: loginUser } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const { login: loginUser } = useAuth()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
-    if (!email || !password) {
-      Alert.alert("Warning", "Please fill all the fields");
-      return;
+    try {
+      const parsed = loginSchema.parse({ email, password })
+      setLoading(true)
+      const res = await loginUser(parsed.email.trim(), parsed.password)
+      if (!res.success) {
+        Alert.alert("Error", res.msg || "Something went wrong")
+      } else {
+        router.replace("/(tabs)")
+      }
+    } catch (err) {
+      if (err instanceof ZodError) {
+        Alert.alert("Validation Error", err.issues[0].message)
+      } else {
+        Alert.alert("Error", "Network error, please try again")
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(true);
-    const res = await loginUser(email, password);
-    setLoading(false);
-    if (!res.success) {
-      Alert.alert("Error", res.msg);
-    }
-    router.replace("/(tabs)");
-  };
+  }
 
   return (
     <ScreenWrapper>
@@ -40,7 +55,7 @@ const Login = () => {
             style={styles.logo}
           />
           <Typo size={42} fontWeight={"800"}>
-            Spend Ease
+            Finote
           </Typo>
           <Typo size={18} color={colors.neutral400}>
             Spend smarter, Live easy
@@ -51,7 +66,7 @@ const Login = () => {
           <Input
             placeholder="Enter your email"
             onChangeText={(value) => {
-              setEmail(value);
+              setEmail(value)
             }}
             icon={
               <Icons.At
@@ -65,7 +80,7 @@ const Login = () => {
             placeholder="Enter your password"
             type="password"
             onChangeText={(value) => {
-              setPassword(value);
+              setPassword(value)
             }}
             icon={
               <Icons.Lock
@@ -76,7 +91,7 @@ const Login = () => {
             }
           />
           <Button onPress={handleSubmit} loading={loading}>
-            <Typo fontWeight={"700"} color={colors.black} size={21}>
+            <Typo fontWeight={"700"} color={colors.white} size={21}>
               Login
             </Typo>
           </Button>
@@ -112,10 +127,10 @@ const Login = () => {
         </View> */}
       </View>
     </ScreenWrapper>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
 
 const styles = StyleSheet.create({
   container: {
@@ -161,4 +176,4 @@ const styles = StyleSheet.create({
     width: verticalScale(40),
     height: verticalScale(40),
   },
-});
+})
