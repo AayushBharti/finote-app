@@ -1,16 +1,15 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import React from "react";
-import ScreenWrapper from "@/components/screen-wrapper";
-import Typo from "@/components/typo";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
-import ButtonComponent from "@/components/button";
-import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
+import ButtonComponent from "@/components/button"
+import ScreenWrapper from "@/components/screen-wrapper"
+import Typo from "@/components/typo"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { verticalScale } from "@/utils/styling"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated"
 
-import { useRouter } from "expo-router";
+import { useRouter } from "expo-router"
 
 const Welcome = () => {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -26,7 +25,7 @@ const Welcome = () => {
           </TouchableOpacity>
 
           <Animated.Image
-            entering={FadeIn.duration(1000)}
+            entering={FadeIn.duration(300)}
             source={require("@/public/images/welcome.png")}
             style={styles.welcomeImage}
             resizeMode="contain"
@@ -36,7 +35,7 @@ const Welcome = () => {
         {/* footer area */}
         <View style={styles.footer}>
           <Animated.View
-            entering={FadeInDown.duration(1000).springify().damping(12)}
+            entering={FadeInDown.duration(300).springify().damping(50)}
             style={{ alignItems: "center" }}
           >
             <Typo size={30} fontWeight={"800"} color={colors.textLight}>
@@ -47,10 +46,10 @@ const Welcome = () => {
             </Typo>
           </Animated.View>
           <Animated.View
-            entering={FadeInDown.duration(1000)
+            entering={FadeInDown.duration(300)
               .delay(100)
               .springify()
-              .damping(12)}
+              .damping(50)}
             style={{ alignItems: "center", gap: 2 }}
           >
             <Typo size={16} color={colors.textLight}>
@@ -61,15 +60,15 @@ const Welcome = () => {
             </Typo>
           </Animated.View>
           <Animated.View
-            entering={FadeInDown.duration(1000)
+            entering={FadeInDown.duration(300)
               .delay(200)
               .springify()
-              .damping(12)}
+              .damping(50)}
             style={styles.buttonContainer}
           >
             {/* custom buttom from components */}
             <ButtonComponent onPress={() => router.navigate("/(auth)/sign-up")}>
-              <Typo size={22} color={colors.neutral900} fontWeight={"600"}>
+              <Typo size={22} color={colors.textLight} fontWeight={"600"}>
                 Get Started
               </Typo>
             </ButtonComponent>
@@ -77,10 +76,10 @@ const Welcome = () => {
         </View>
       </View>
     </ScreenWrapper>
-  );
-};
+  )
+}
 
-export default Welcome;
+export default Welcome
 
 const styles = StyleSheet.create({
   container: {
@@ -104,14 +103,14 @@ const styles = StyleSheet.create({
     paddingTop: verticalScale(30),
     paddingBottom: verticalScale(45),
     gap: spacingY._20,
-    shadowColor: "white",
-    shadowOffset: { width: 0, height: -10 },
-    shadowOpacity: 0.15,
-    shadowRadius: 25,
-    elevation: 10,
+    // shadowColor: "white",
+    // shadowOffset: { width: 0, height: -10 },
+    // shadowOpacity: 0.15,
+    // shadowRadius: 25,
+    // elevation: 10,
   },
   buttonContainer: {
     width: "100%",
     paddingHorizontal: spacingX._25,
   },
-});
+})
