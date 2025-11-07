@@ -23,9 +23,10 @@ export const createOrUpdateWallet = async (
         "wallets"
       );
       if (!imageUploadRes.success) {
+        console.log("Failed to upload wallets image", imageUploadRes.msg);
         return {
           success: false,
-          msg: imageUploadRes.msg || "Failed to upload wallets image",
+          msg:"Failed to upload wallets image",
         };
       }
 

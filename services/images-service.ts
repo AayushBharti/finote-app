@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const CLOUDINARY_API_URL = `https://api.cloudinary.com/v1_1/${process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`;
+ 
+// const CLOUDINARY_API_URL = process.env.EXPO_PUBLIC_CLOUDINARY_URL as string;
 
 export const uploadFileToCloudinary = async (
   file: { uri?: string } | string,
@@ -11,7 +13,7 @@ export const uploadFileToCloudinary = async (
     if (typeof file === "string") {
       return { success: true, data: file };
     }
-    if (typeof file != "string" && file.uri) {
+    if (typeof file !== "string" && file.uri) {
       const formData = new FormData();
       formData.append("file", {
         uri: file?.uri,
@@ -38,15 +40,15 @@ export const uploadFileToCloudinary = async (
 };
 
 export const getProfileImage = (file: any) => {
-  if (file && typeof file == "string") return file;
-  if (file && typeof file == "object") return file.uri;
+  if (file && typeof file === "string") return file;
+  if (file && typeof file === "object") return file.uri;
 
   return require("../public/images/defaultAvatar.png");
 };
 
 export const getFilePath = (file: any) => {
-  if (file && typeof file == "string") return file;
-  if (file && typeof file == "object") return file.uri;
+  if (file && typeof file === "string") return file;
+  if (file && typeof file === "object") return file.uri;
 
   return null;
 };
