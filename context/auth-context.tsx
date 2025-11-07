@@ -91,7 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
-        password,
+        password
       );
       await setDoc(doc(firestore, "users", response?.user?.uid), {
         name,
@@ -149,7 +149,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updatePassword = async (
     oldPassword: string,
-    newPassword: string,
+    newPassword: string
   ): Promise<{ success: boolean; msg?: string }> => {
     try {
       const user = auth.currentUser;
@@ -175,6 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = async () => {
     try {
+      await auth.signOut();
       setUser(null);
 
       // if (isGoogleSignIn) {
@@ -187,7 +188,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       //   }
       // }
 
-      await auth.signOut();
 
       return { success: true };
     } catch (error: any) {

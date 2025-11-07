@@ -84,7 +84,7 @@ const Home = () => {
         >
           <Icons.Plus
             size={verticalScale(24)}
-            color={colors.black}
+            color={colors.white}
             weight="bold"
           />
         </ButtonComponent>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     width: verticalScale(50),
     borderRadius: 100,
     position: "absolute",
-    bottom: verticalScale(30),
+    bottom: verticalScale(110),
     right: verticalScale(30),
   },
   scrollViewStyle: {
