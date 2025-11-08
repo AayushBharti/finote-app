@@ -1,22 +1,22 @@
-import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
-import React from "react";
-import ModalWrapper from "@/components/modal-wrapper";
-import { colors, radius, spacingX, spacingY } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
-import Header from "@/components/header";
-import Typo from "@/components/typo";
-import { useAuth } from "@/context/auth-context";
-import { Image } from "expo-image";
-import { getProfileImage } from "@/services/images-service";
-import * as Icons from "phosphor-react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { useRouter } from "expo-router";
-import { OptionType } from "@/types";
-import BackButton from "@/components/back-button";
+import BackButton from "@/components/back-button"
+import Header from "@/components/header"
+import ModalWrapper from "@/components/modal-wrapper"
+import Typo from "@/components/typo"
+import { colors, radius, spacingX, spacingY } from "@/constants/theme"
+import { useAuth } from "@/context/auth-context"
+import { getProfileImage } from "@/services/images-service"
+import { OptionType } from "@/types"
+import { verticalScale } from "@/utils/styling"
+import { Image } from "expo-image"
+import { useRouter } from "expo-router"
+import * as Icons from "phosphor-react-native"
+import React from "react"
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
+import Animated, { FadeInDown } from "react-native-reanimated"
 
 const ProfileModal = () => {
-  const { user, logout } = useAuth();
-  const router = useRouter();
+  const { user, logout } = useAuth()
+  const router = useRouter()
 
   const accountOptions: OptionType[] = [
     {
@@ -37,11 +37,12 @@ const ProfileModal = () => {
       // routeName: "",
       bgColor: "#e11d48",
     },
-  ];
+  ]
 
   const handleLogout = async () => {
-    await logout();
-  };
+    // router.navigate("/(auth)/sign-up")
+    await logout()
+  }
 
   const showLogoutAlert = () => {
     Alert.alert("Confirm", "Are you sure you want to logout?", [
@@ -57,16 +58,16 @@ const ProfileModal = () => {
         style: "destructive",
         onPress: () => handleLogout(),
       },
-    ]);
-  };
+    ])
+  }
 
   const handlePress = (item: OptionType) => {
-    if (item.title == "Logout") {
-      showLogoutAlert();
+    if (item.title === "Logout") {
+      showLogoutAlert()
     }
 
-    if (item.routeName) router.push(item?.routeName as any);
-  };
+    if (item.routeName) router.push(item?.routeName as any)
+  }
 
   return (
     <ModalWrapper>
@@ -112,7 +113,7 @@ const ProfileModal = () => {
                   key={index.toString()}
                   entering={FadeInDown.delay(index * 50)
                     .springify()
-                    .damping(14)}
+                    .damping(50)}
                 >
                   {index > 0 && <View style={styles.divider} />}
                   <TouchableOpacity
@@ -138,15 +139,15 @@ const ProfileModal = () => {
                     />
                   </TouchableOpacity>
                 </Animated.View>
-              );
+              )
             })}
         </View>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default ProfileModal;
+export default ProfileModal
 
 const styles = StyleSheet.create({
   container: {
@@ -209,4 +210,4 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.neutral700,
   },
-});
+})
