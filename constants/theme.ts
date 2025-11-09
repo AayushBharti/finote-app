@@ -1,19 +1,21 @@
-import { StyleSheet } from 'react-native';
-import { scale, verticalScale } from "@/utils/styling";
+import { scale, verticalScale } from "@/utils/styling"
+import { StyleSheet } from "react-native"
 
 // Default text style that will be applied app-wide
 const defaultText = {
   fontFamily: "Quicksand-Regular",
-};
+}
 
 export const colors = {
-  primary: "#a3e635",
-  primaryLight: "#0ea5e9",
-  primaryDark: "#0369a1",
+  primary: "#7A4DFF", 
+  primaryDark: "#5D3AE0", 
+  primaryDisabled: "#C4AFFF", 
+  white: "#FFFFFF",
+  shadowLight: "rgba(0,0,0,0.1)",
+  shadowDark: "rgba(0,0,0,0.25)",
   text: "#fff",
   textLight: "#e5e5e5",
   textLighter: "#d4d4d4",
-  white: "#fff",
   black: "#000",
   rose: "#ef4444",
   // brightGreen: "#32CD32",
@@ -29,7 +31,7 @@ export const colors = {
   neutral700: "#404040",
   neutral800: "#262626",
   neutral900: "#171717",
-};
+}
 
 export const englishFonts = {
   displaySmall: {
@@ -137,7 +139,7 @@ export const englishFonts = {
     letterSpacing: 0,
     lineHeight: 16,
   },
-};
+}
 
 export const spacingX = {
   _3: scale(3),
@@ -151,7 +153,7 @@ export const spacingX = {
   _30: scale(30),
   _35: scale(35),
   _40: scale(40),
-};
+}
 
 export const spacingY = {
   _5: verticalScale(5),
@@ -167,7 +169,8 @@ export const spacingY = {
   _40: verticalScale(40),
   _50: verticalScale(50),
   _60: verticalScale(60),
-};
+  _70: verticalScale(70),
+}
 
 export const radius = {
   _3: verticalScale(3),
@@ -178,7 +181,7 @@ export const radius = {
   _17: verticalScale(17),
   _20: verticalScale(20),
   _30: verticalScale(30),
-};
+}
 
 // Default styles that can be applied app-wide
 export const defaultStyles = StyleSheet.create({
@@ -186,4 +189,4 @@ export const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
-});
+})
