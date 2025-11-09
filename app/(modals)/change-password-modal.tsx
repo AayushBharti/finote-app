@@ -1,63 +1,62 @@
-import { Alert, ScrollView, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { scale } from "@/utils/styling";
-import ModalWrapper from "@/components/modal-wrapper";
-import Header from "@/components/header";
-import BackButton from "@/components/back-button";
-import Typo from "@/components/typo";
-import Input from "@/components/input";
-import Button from "@/components/button";
-import { useAuth } from "@/context/auth-context";
-import { useRouter } from "expo-router";
-import * as Icons from "phosphor-react-native";
-import { verticalScale } from "@/utils/styling";
+import BackButton from "@/components/back-button"
+import Button from "@/components/button"
+import Header from "@/components/header"
+import Input from "@/components/input"
+import ModalWrapper from "@/components/modal-wrapper"
+import Typo from "@/components/typo"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { useAuth } from "@/context/auth-context"
+import { scale, verticalScale } from "@/utils/styling"
+import { useRouter } from "expo-router"
+import * as Icons from "phosphor-react-native"
+import React, { useState } from "react"
+import { Alert, ScrollView, StyleSheet, View } from "react-native"
 
 const ChangePasswordModal = () => {
-  const { updatePassword } = useAuth();
-  const router = useRouter();
+  const { updatePassword } = useAuth()
+  const router = useRouter()
   const [passwords, setPasswords] = useState({
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
-  });
-  const [loading, setLoading] = useState(false);
+  })
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
-    const { oldPassword, newPassword, confirmPassword } = passwords;
+    const { oldPassword, newPassword, confirmPassword } = passwords
 
     if (!oldPassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
-      Alert.alert("Warning", "Please fill all the fields");
-      return;
+      Alert.alert("Warning", "Please fill all the fields")
+      return
     }
 
     if (newPassword !== confirmPassword) {
-      Alert.alert("Warning", "New password does not match");
-      return;
+      Alert.alert("Warning", "New password does not match")
+      return
     }
 
     if (newPassword.length < 6) {
-      Alert.alert("Warning", "New password must be at least 6 characters");
-      return;
+      Alert.alert("Warning", "New password must be at least 6 characters")
+      return
     }
 
-    setLoading(true);
-    const res = await updatePassword(oldPassword, newPassword);
-    setLoading(false);
+    setLoading(true)
+    const res = await updatePassword(oldPassword, newPassword)
+    setLoading(false)
 
     if (res.success) {
       Alert.alert("Success", "Password updated successfully", [
         {
           text: "OK",
           onPress: () => {
-            router.back();
+            router.back()
           },
         },
-      ]);
+      ])
     } else {
-      Alert.alert("Error", res.msg || "Failed to update password");
+      Alert.alert("Error", res.msg || "Failed to update password")
     }
-  };
+  }
 
   return (
     <ModalWrapper>
@@ -126,16 +125,16 @@ const ChangePasswordModal = () => {
       </View>
       <View style={styles.footer}>
         <Button onPress={handleSubmit} loading={loading} style={{ flex: 1 }}>
-          <Typo color={colors.black} fontWeight={"700"}>
+          <Typo color={colors.white} fontWeight={"700"}>
             Update
           </Typo>
         </Button>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default ChangePasswordModal;
+export default ChangePasswordModal
 
 const styles = StyleSheet.create({
   container: {
@@ -161,4 +160,4 @@ const styles = StyleSheet.create({
   inputContainer: {
     gap: spacingY._10,
   },
-});
+})
