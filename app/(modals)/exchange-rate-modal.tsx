@@ -1,61 +1,61 @@
-import { StyleSheet, ScrollView, View, TextInput } from "react-native";
-import React, { useEffect, useState, useMemo } from "react";
-import ModalWrapper from "@/components/modal-wrapper";
-import { colors, radius, spacingX, spacingY } from "@/constants/theme";
-import BackButton from "@/components/back-button";
-import Header from "@/components/header";
-import { CurrencyType } from "@/types";
-import { fetchCurrencies } from "@/services/currency-service";
-import Typo from "@/components/typo";
-import { Dropdown } from "react-native-element-dropdown";
-import Input from "@/components/input";
+import BackButton from "@/components/back-button"
+import Header from "@/components/header"
+import Input from "@/components/input"
+import Loading from "@/components/loading"
+import ModalWrapper from "@/components/modal-wrapper"
+import Typo from "@/components/typo"
+import { colors, radius, spacingX, spacingY } from "@/constants/theme"
+import { fetchCurrencies } from "@/services/currency-service"
+import { CurrencyType } from "@/types"  
 import {
   formatCurrency,
   formatNumberInput,
   getNumberInput,
-} from "@/utils/common";
-import * as Icons from "phosphor-react-native";
-import { verticalScale, scale } from "@/utils/styling";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import Loading from "@/components/loading";
+} from "@/utils/common"
+import { verticalScale } from "@/utils/styling"
+import * as Icons from "phosphor-react-native"
+import React, { useEffect, useMemo, useState } from "react"
+import { ScrollView, StyleSheet, View } from "react-native"
+import { Dropdown } from "react-native-element-dropdown"
+import Animated, { FadeInDown } from "react-native-reanimated"
 
 const ExchangeRateModal = () => {
-  const [currencies, setCurrencies] = useState<CurrencyType[]>([]);
-  const [baseCurrency, setBaseCurrency] = useState<string>("VND");
-  const [amount, setAmount] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currencies, setCurrencies] = useState<CurrencyType[]>([])
+  const [baseCurrency, setBaseCurrency] = useState<string>("VND")
+  const [amount, setAmount] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
+  // const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState<string>("")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await fetchCurrencies(baseCurrency);
-        setCurrencies(response);
+        setLoading(true)
+        const response = await fetchCurrencies(baseCurrency)
+        setCurrencies(response)
       } catch (error) {
-        setError(error as string);
+        // setError(error as string)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchData();
-  }, [baseCurrency]);
+    }
+    fetchData()
+  }, [baseCurrency])
 
   const filteredCurrencies = useMemo(() => {
     return currencies.filter(
       (currency) =>
         currency.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        currency.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [currencies, searchQuery]);
+        currency.name?.toLowerCase().includes(searchQuery.toLowerCase()),
+    )
+  }, [currencies, searchQuery])
 
   const handleAmountChange = (value: string) => {
-    const numericValue = getNumberInput(value);
+    const numericValue = getNumberInput(value)
     if (numericValue !== undefined) {
-      setAmount(numericValue.toString());
+      setAmount(numericValue.toString())
     }
-  };
+  }
 
   return (
     <ModalWrapper>
@@ -136,7 +136,7 @@ const ExchangeRateModal = () => {
                   key={currency.code}
                   entering={FadeInDown.delay(index * 50)
                     .springify()
-                    .damping(14)}
+                    .damping(50)}
                 >
                   <View style={styles.currencyItem}>
                     <View style={styles.currencyInfo}>
@@ -152,7 +152,7 @@ const ExchangeRateModal = () => {
                         Number(amount) * currency.value,
                         "vi-VN",
                         currency.code,
-                        6
+                        6,
                       )}
                     </Typo>
                   </View>
@@ -180,10 +180,10 @@ const ExchangeRateModal = () => {
         </ScrollView>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default ExchangeRateModal;
+export default ExchangeRateModal
 
 const styles = StyleSheet.create({
   container: {
@@ -265,4 +265,4 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neutral700,
     marginHorizontal: spacingX._15,
   },
-});
+})
