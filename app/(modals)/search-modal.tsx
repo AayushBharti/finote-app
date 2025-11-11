@@ -1,30 +1,30 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { scale } from "@/utils/styling";
-import ModalWrapper from "@/components/modal-wrapper";
-import HeaderComponent from "@/components/header";
-import BackButton from "@/components/back-button";
-import TextInput from "@/components/text-input";
-import { TransactionType } from "@/types";
+import BackButton from "@/components/back-button"
+import HeaderComponent from "@/components/header"
+import ModalWrapper from "@/components/modal-wrapper"
+import TextInput from "@/components/text-input"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { TransactionType } from "@/types"
+import { scale } from "@/utils/styling"
+import React, { useState } from "react"
+import { ScrollView, StyleSheet, View } from "react-native"
 
-import { orderBy, where } from "firebase/firestore";
-import { useFirestoreData } from "@/hooks/use-firestore-data";
-import { TransactionList } from "@/components/transaction-list";
-import { useAuth } from "@/context/auth-context";
+import { TransactionList } from "@/components/transaction-list"
+import { useAuth } from "@/context/auth-context"
+import { useFirestoreData } from "@/hooks/use-firestore-data"
+import { orderBy, where } from "firebase/firestore"
 
 const SearchModal = () => {
-  const { user } = useAuth();
+  const { user } = useAuth()
 
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState("")
 
-  const constraints = [where("uid", "==", user?.uid), orderBy("date", "desc")];
+  const constraints = [where("uid", "==", user?.uid), orderBy("date", "desc")]
   const {
     data: allTransactions,
     error,
     loading: recentTransactionsLoading,
-  } = useFirestoreData<TransactionType>("transactions", constraints);
+  } = useFirestoreData<TransactionType>("transactions", constraints)
 
   // console.log("Total transactions: ", allTransactions.length);
 
@@ -35,13 +35,13 @@ const SearchModal = () => {
         item.type?.toLowerCase()?.includes(search?.toLowerCase()) ||
         item.description?.toLowerCase()?.includes(search?.toLowerCase())
       ) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     }
-    return true;
-  });
+    return true
+  })
 
   return (
     <ModalWrapper bg={colors.neutral900}>
@@ -75,10 +75,10 @@ const SearchModal = () => {
         </ScrollView>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default SearchModal;
+export default SearchModal
 
 const styles = StyleSheet.create({
   container: {
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
     gap: spacingY._10,
     marginVertical: spacingY._10,
   },
-});
+})
