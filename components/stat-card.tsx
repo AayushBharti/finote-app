@@ -1,15 +1,15 @@
 // StatCard.tsx
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Typo from "./typo";
-import { FontAwesome } from "@expo/vector-icons";
-import { colors, radius, spacingX } from "@/constants/theme";
+import { colors, radius, spacingX } from "@/constants/theme"
+import { FontAwesome } from "@expo/vector-icons"
+import React from "react"
+import { StyleSheet, View } from "react-native"
+import Typo from "./typo"
 
 type Props = {
-  type: "Income" | "Expense";
-  amount: number;
-  containerStyle?: any;
-};
+  type: "Income" | "Expense"
+  amount: number
+  containerStyle?: any
+}
 
 const StatCard = ({ type, amount, containerStyle }: Props) => {
   return (
@@ -40,10 +40,10 @@ const StatCard = ({ type, amount, containerStyle }: Props) => {
         </Typo>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default StatCard;
+export default StatCard
 
 const styles = StyleSheet.create({
   container: {
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
   amountText: {
     width: "100%",
   },
-});
+})

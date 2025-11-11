@@ -60,7 +60,7 @@ export default function Wallet() {
             >
               <Icons.PlusCircle
                 weight="fill"
-                color={colors.primary}
+                color={colors.white}
                 size={verticalScale(33)}
               />
             </TouchableOpacity>
