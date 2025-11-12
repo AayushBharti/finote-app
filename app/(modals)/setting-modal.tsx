@@ -1,17 +1,17 @@
-import { StyleSheet, Switch, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import ModalWrapper from "@/components/modal-wrapper";
-import { colors, radius, spacingX, spacingY } from "@/constants/theme";
-import Header from "@/components/header";
-import BackButton from "@/components/back-button";
-import Typo from "@/components/typo";
-import * as Icons from "phosphor-react-native";
-import { verticalScale } from "@/utils/styling";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { OptionType } from "@/types";
+import BackButton from "@/components/back-button"
+import Header from "@/components/header"
+import ModalWrapper from "@/components/modal-wrapper"
+import Typo from "@/components/typo"
+import { colors, radius, spacingX, spacingY } from "@/constants/theme"
+import { OptionType } from "@/types"
+import { verticalScale } from "@/utils/styling"
+import * as Icons from "phosphor-react-native"
+import React, { useState } from "react"
+import { StyleSheet, Switch, TouchableOpacity, View } from "react-native"
+import Animated, { FadeInDown } from "react-native-reanimated"
 
 const SettingsModal = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false)
   const settings: OptionType[] = [
     {
       title: "Dark Mode",
@@ -41,14 +41,14 @@ const SettingsModal = () => {
       value: "1.0.0",
       bgColor: "#0ea5e9",
     },
-  ];
+  ]
 
   const renderRightComponent = (item: OptionType) => {
     switch (item.type) {
       case "switch":
         return (
           <Switch value={item.value as boolean} onValueChange={item.onChange} />
-        );
+        )
       case "arrow":
         return (
           <Icons.CaretRight
@@ -56,17 +56,17 @@ const SettingsModal = () => {
             weight="bold"
             color={colors.white}
           />
-        );
+        )
       case "text":
         return (
           <Typo size={14} color={colors.neutral400}>
             {item.value}
           </Typo>
-        );
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <ModalWrapper>
@@ -84,7 +84,7 @@ const SettingsModal = () => {
                 key={index.toString()}
                 entering={FadeInDown.delay(index * 50)
                   .springify()
-                  .damping(14)}
+                  .damping(50)}
               >
                 {index > 0 && <View style={styles.divider} />}
                 <TouchableOpacity
@@ -108,10 +108,10 @@ const SettingsModal = () => {
         </View>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default SettingsModal;
+export default SettingsModal
 
 const styles = StyleSheet.create({
   container: {
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.neutral700,
   },
-});
+})
