@@ -1,43 +1,42 @@
+import BackButton from "@/components/back-button"
+import Button from "@/components/button"
+import Header from "@/components/header"
+import Input from "@/components/input"
+import ModalWrapper from "@/components/modal-wrapper"
+import Typo from "@/components/typo"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { useAuth } from "@/context/auth-context"
+import { getProfileImage } from "@/services/images-service"
+import { updateUser } from "@/services/user-service"
+import { UserDataType } from "@/types"
+import { scale, verticalScale } from "@/utils/styling"
+import { Image } from "expo-image"
+import * as ImagePicker from "expo-image-picker"
+import * as Icons from "phosphor-react-native"
+import React, { useEffect, useState } from "react"
 import {
   Alert,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { scale, verticalScale } from "@/utils/styling";
-import ModalWrapper from "@/components/modal-wrapper";
-import Header from "@/components/header";
-import BackButton from "@/components/back-button";
-import { Image } from "expo-image";
-import { getProfileImage } from "@/services/images-service";
-import * as Icons from "phosphor-react-native";
-import Typo from "@/components/typo";
-import Input from "@/components/input";
-import { UserDataType } from "@/types";
-import Button from "@/components/button";
-import { useAuth } from "@/context/auth-context";
-import { updateUser } from "@/services/user-service";
-import { useRouter } from "expo-router";
-import * as ImagePicker from "expo-image-picker";
+} from "react-native"
 
 const EditProfileModal = () => {
-  const { user, updateUserData } = useAuth();
-  const router = useRouter();
+  const { user, updateUserData } = useAuth()
+  // const router = useRouter()
   const [userData, setUserData] = useState<UserDataType>({
     name: "",
     image: null,
-  });
-  const [loading, setLoading] = useState(false);
+  })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setUserData({
       name: user?.name || "",
       image: user?.image || null,
-    });
-  }, [user]);
+    })
+  }, [user])
 
   const handleImagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,29 +44,29 @@ const EditProfileModal = () => {
       // allowsEditing: true,
       aspect: [4, 3],
       quality: 0.5,
-    });
+    })
 
     if (!result.canceled) {
-      setUserData({ ...userData, image: result.assets[0] });
+      setUserData({ ...userData, image: result.assets[0] })
     }
-  };
+  }
 
   const handleSubmit = async () => {
-    let { name, image } = userData;
+    let { name, image } = userData
     if (!name.trim()) {
-      Alert.alert("Warning", "Please enter your name");
-      return;
+      Alert.alert("Warning", "Please enter your name")
+      return
     }
 
-    setLoading(true);
-    const res = await updateUser(user?.uid as string, userData);
-    setLoading(false);
+    setLoading(true)
+    const res = await updateUser(user?.uid as string, userData)
+    setLoading(false)
     if (res.success) {
-      updateUserData(user?.uid as string);
+      updateUserData(user?.uid as string)
     } else {
-      Alert.alert("Error", res.msg || "Update failed");
+      Alert.alert("Error", res.msg || "Update failed")
     }
-  };
+  }
 
   return (
     <ModalWrapper>
@@ -110,16 +109,16 @@ const EditProfileModal = () => {
       </View>
       <View style={styles.footer}>
         <Button onPress={handleSubmit} loading={loading} style={{ flex: 1 }}>
-          <Typo color={colors.black} fontWeight={"700"}>
+          <Typo color={colors.white} fontWeight={"700"}>
             Update
           </Typo>
         </Button>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default EditProfileModal;
+export default EditProfileModal
 
 const styles = StyleSheet.create({
   container: {
@@ -171,4 +170,4 @@ const styles = StyleSheet.create({
   inputContainer: {
     gap: spacingY._10,
   },
-});
+})
