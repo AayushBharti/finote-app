@@ -1,16 +1,16 @@
-import { StyleSheet, TouchableOpacity, View, Alert } from "react-native";
-import React from "react";
-import ScreenWrapper from "@/components/screen-wrapper";
-import { colors, radius, spacingX, spacingY } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
-import Typo from "@/components/typo";
-import { useAuth } from "@/context/auth-context";
-import { Image } from "expo-image";
-import * as Icons from "phosphor-react-native";
-import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
-import { useRouter } from "expo-router";
-import { OptionType } from "@/types";
-import { getProfileImage } from "@/services/images-service";
+import ScreenWrapper from "@/components/screen-wrapper"
+import Typo from "@/components/typo"
+import { colors, radius, spacingX } from "@/constants/theme"
+import { useAuth } from "@/context/auth-context"
+import { getProfileImage } from "@/services/images-service"
+import { OptionType } from "@/types"
+import { verticalScale } from "@/utils/styling"
+import { Image } from "expo-image"
+import { useRouter } from "expo-router"
+import * as Icons from "phosphor-react-native"
+import React from "react"
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
+import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated"
 
 const features: OptionType[] = [
   {
@@ -32,7 +32,7 @@ const features: OptionType[] = [
     // routeName: "/(modals)/exportDataModal",
     routeName: "commingsoon",
   },
-];
+]
 
 const utilities: OptionType[] = [
   {
@@ -61,7 +61,7 @@ const utilities: OptionType[] = [
     // routeName: "/(modals)/splitBillModal",
     routeName: "commingsoon",
   },
-];
+]
 
 const settings: OptionType[] = [
   {
@@ -76,29 +76,29 @@ const settings: OptionType[] = [
     routeName: "/(modals)/setting-modal",
     bgColor: "#6366f1",
   },
-];
+]
 
 const More = () => {
-  const { user } = useAuth();
-  const router = useRouter();
+  const { user } = useAuth()
+  const router = useRouter()
 
   const handlePress = (item: OptionType) => {
-    if (!item.routeName) return;
+    if (!item.routeName) return
 
     item?.routeName === "commingsoon"
       ? Alert.alert(
           "Notification",
-          "This feature is under development. Come back later!"
+          "This feature is under development. Come back later!",
         )
-      : router.push(item?.routeName as any);
-  };
+      : router.push(item?.routeName as any)
+  }
 
   return (
-    <ScreenWrapper style={{ marginTop: verticalScale(20) }}>
+    <ScreenWrapper style={{ paddingTop: verticalScale(20) }}>
       <View style={styles.container}>
         {/* User info */}
         <Animated.View
-          entering={FadeInDown.springify().damping(14)}
+          entering={FadeInDown.springify().damping(50)}
           style={styles.cardContainer}
         >
           <TouchableOpacity
@@ -138,7 +138,7 @@ const More = () => {
                 key={index.toString()}
                 entering={FadeInRight.delay(index * 50)
                   .springify()
-                  .damping(14)}
+                  .damping(50)}
               >
                 <TouchableOpacity
                   style={{ flexDirection: "column" }}
@@ -185,7 +185,7 @@ const More = () => {
                 key={index.toString()}
                 entering={FadeInRight.delay(index * 50)
                   .springify()
-                  .damping(14)}
+                  .damping(50)}
               >
                 <TouchableOpacity
                   style={{ flexDirection: "column" }}
@@ -224,7 +224,7 @@ const More = () => {
                 key={index.toString()}
                 entering={FadeInDown.delay(index * 50)
                   .springify()
-                  .damping(14)}
+                  .damping(50)}
               >
                 {index > 0 && <View style={styles.divider} />}
                 <TouchableOpacity
@@ -251,10 +251,10 @@ const More = () => {
         </View>
       </View>
     </ScreenWrapper>
-  );
-};
+  )
+}
 
-export default More;
+export default More
 
 const styles = StyleSheet.create({
   container: {
@@ -321,4 +321,4 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neutral700,
     marginVertical: verticalScale(9),
   },
-});
+})
