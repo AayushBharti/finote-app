@@ -1,83 +1,88 @@
-import { Alert, ScrollView, StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { scale, verticalScale } from "@/utils/styling";
-import Typo from "@/components/typo";
-import ModalWrapper from "@/components/modal-wrapper";
-import HeaderComponent from "@/components/header";
-import BackButton from "@/components/back-button";
-import * as Icons from "phosphor-react-native";
-import TextInputComponent from "@/components/text-input";
-import { WalletType } from "@/types";
-import ButtonComponent from "@/components/button";
-import { useAuth } from "@/context/auth-context";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { createOrUpdateWallet, deleteWallet } from "@/services/wallet-service";
-import ImageUpload from "@/components/image-upload";
+import BackButton from "@/components/back-button"
+import ButtonComponent from "@/components/button"
+import HeaderComponent from "@/components/header"
+import ImageUpload from "@/components/image-upload"
+import ModalWrapper from "@/components/modal-wrapper"
+import TextInputComponent from "@/components/text-input"
+import Typo from "@/components/typo"
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { useAuth } from "@/context/auth-context"
+import { createOrUpdateWallet, deleteWallet } from "@/services/wallet-service"
+import { WalletType } from "@/types"
+import { scale, verticalScale } from "@/utils/styling"
+import { useLocalSearchParams, useRouter } from "expo-router"
+import * as Icons from "phosphor-react-native"
+import React, { useEffect, useState } from "react"
+import { Alert, ScrollView, StyleSheet, View } from "react-native"
 
 const WalletModal = () => {
-  const { user, updateUserData } = useAuth();
+  const { user, updateUserData } = useAuth()
   const [wallet, setWalletData] = useState<WalletType>({
     name: "",
     image: null,
-  });
+  })
 
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   //retrieve data from wallte to update
   const oldWallet: { name: string; image: string; id: string } =
-    useLocalSearchParams();
+    useLocalSearchParams()
 
   useEffect(() => {
     if (oldWallet?.id) {
       setWalletData({
         name: oldWallet?.name || "",
         image: oldWallet?.image || null,
-      });
+      })
     }
-  }, []);
+  }, [])
 
   //onsublmit function
   const onSubmit = async () => {
-    let { name, image } = wallet;
-    if (!name.trim() || !image) {
-      Alert.alert("Wallet", "Please enter wallet name");
-      return;
+    let { name, image } = wallet
+    // || !image
+    if (!name.trim()) {
+      Alert.alert("Wallet", "Please enter wallet name")
+      return
     }
-
+    console.log("wallet", wallet)
+    if (!image) {
+      image = require("@/public/images/splash-icon.png")
+    }
+    console.log("images", image)
     const data: WalletType = {
       name,
       image,
       uid: user?.uid,
-    };
+    }
 
-    if (oldWallet?.id) data.id = oldWallet?.id;
+    if (oldWallet?.id) data.id = oldWallet?.id
 
-    setLoading(true);
-    const result = await createOrUpdateWallet(data);
-    setLoading(false);
+    setLoading(true)
+    const result = await createOrUpdateWallet(data)
+    setLoading(false)
     if (result.success) {
       //update user
-      router.back();
+      router.back()
     } else {
-      Alert.alert("Wallet", result.msg);
+      Alert.alert("Wallet", result.msg)
     }
-  };
+  }
 
   const OnDelete = async () => {
-    if (!oldWallet?.id) return;
-    setLoading(true);
-    const result = await deleteWallet(oldWallet?.id);
-    setLoading(false);
+    if (!oldWallet?.id) return
+    setLoading(true)
+    const result = await deleteWallet(oldWallet?.id)
+    setLoading(false)
     if (result.success) {
       //update user
-      router.back();
-      Alert.alert("Wallet", "Wallet deleted successfully");
+      router.back()
+      Alert.alert("Wallet", "Wallet deleted successfully")
     } else {
-      Alert.alert("Wallet", result.msg);
+      Alert.alert("Wallet", result.msg)
     }
-  };
+  }
 
   //Function show delete alert for deleting wallet
   const showDeleteAlert = () => {
@@ -91,9 +96,9 @@ const WalletModal = () => {
           onPress: () => OnDelete(),
           style: "destructive",
         },
-      ]
-    );
-  };
+      ],
+    )
+  }
 
   return (
     <ModalWrapper>
@@ -153,16 +158,16 @@ const WalletModal = () => {
           loading={loading}
           style={{ flex: 1 }}
         >
-          <Typo color={colors.black} fontWeight="800">
+          <Typo color={colors.white} fontWeight="800">
             {oldWallet?.id ? "Update Wallet" : "Add Wallet"}
           </Typo>
         </ButtonComponent>
       </View>
     </ModalWrapper>
-  );
-};
+  )
+}
 
-export default WalletModal;
+export default WalletModal
 
 const styles = StyleSheet.create({
   container: {
@@ -214,4 +219,4 @@ const styles = StyleSheet.create({
   inputContainer: {
     gap: spacingY._10,
   },
-});
+})
