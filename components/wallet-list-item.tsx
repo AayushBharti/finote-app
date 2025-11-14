@@ -1,22 +1,22 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { Image } from "expo-image";
-import * as Icons from "phosphor-react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { WalletType } from "@/types";
-import { Router } from "expo-router";
-import Typo from "./typo";
-import { colors, radius, spacingX } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
+import { colors, radius, spacingX } from "@/constants/theme"
+import { WalletType } from "@/types"
+import { verticalScale } from "@/utils/styling"
+import { Image } from "expo-image"
+import { Router } from "expo-router"
+import * as Icons from "phosphor-react-native"
+import React from "react"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import Typo from "./typo"
 
 const WalletListItem = ({
   item,
   index,
   router,
 }: {
-  item: WalletType;
-  index: number;
-  router: Router;
+  item: WalletType
+  index: number
+  router: Router
 }) => {
   //function to open the wallet
   const openWallet = () => {
@@ -27,14 +27,14 @@ const WalletListItem = ({
         name: item?.name,
         image: item?.image,
       },
-    });
-  };
+    })
+  }
 
   return (
     <Animated.View
       entering={FadeInDown.delay(index * 100)
         .springify()
-        .damping(13)}
+        .damping(50)}
     >
       <TouchableOpacity style={styles.container} onPress={openWallet}>
         <View style={styles.imageContainer}>
@@ -58,10 +58,10 @@ const WalletListItem = ({
         />
       </TouchableOpacity>
     </Animated.View>
-  );
-};
+  )
+}
 
-export default WalletListItem;
+export default WalletListItem
 
 const styles = StyleSheet.create({
   container: {
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
     gap: 2,
     marginLeft: spacingX._10,
   },
-});
+})
