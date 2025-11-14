@@ -1,8 +1,8 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
-import { InputProps } from "@/types";
-import { colors, radius, spacingX } from "@/constants/theme";
-import { verticalScale } from "@/utils/styling";
+import { colors, radius, spacingX } from "@/constants/theme"
+import { InputProps } from "@/types"
+import { verticalScale } from "@/utils/styling"
+import React from "react"
+import { StyleSheet, TextInput, View } from "react-native"
 
 const TextInputComponent = (props: InputProps) => {
   return (
@@ -20,10 +20,10 @@ const TextInputComponent = (props: InputProps) => {
         {...props}
       />
     </View>
-  );
-};
+  )
+}
 
-export default TextInputComponent;
+export default TextInputComponent
 
 const styles = StyleSheet.create({
   container: {
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     fontSize: verticalScale(14),
     fontWeight: "500",
   },
-});
+})
