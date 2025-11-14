@@ -1,19 +1,19 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import React from "react";
+import { expenseCategories, incomeCategory } from "@/constants/data"
+import { colors, radius, spacingX, spacingY } from "@/constants/theme"
 import {
   TransactionItemProps,
   TransactionListType,
   TransactionType,
-} from "@/types";
-import { verticalScale } from "@/utils/styling";
-import { colors, radius, spacingX, spacingY } from "@/constants/theme";
-import Typo from "./typo";
-import { FlashList } from "@shopify/flash-list";
-import LoadingCompenent from "./loading";
-import { expenseCategories, incomeCategory } from "@/constants/data";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { Timestamp } from "firebase/firestore";
-import { useRouter } from "expo-router";
+} from "@/types"
+import { verticalScale } from "@/utils/styling"
+import { FlashList } from "@shopify/flash-list"
+import { useRouter } from "expo-router"
+import { Timestamp } from "firebase/firestore"
+import React from "react"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import LoadingCompenent from "./loading"
+import Typo from "./typo"
 
 export const TransactionList = ({
   data,
@@ -23,7 +23,7 @@ export const TransactionList = ({
 }: TransactionListType) => {
   //hande transaction item click function
 
-  const router = useRouter();
+  const router = useRouter()
   const handleClick = (item: TransactionType) => {
     router.push({
       pathname: "/(modals)/transaction-modal",
@@ -38,8 +38,8 @@ export const TransactionList = ({
         uid: item?.uid,
         walletId: item?.walletId,
       },
-    });
-  };
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -61,7 +61,7 @@ export const TransactionList = ({
           estimatedItemSize={60}
         />
       </View>
-      {!loading && data.length == 0 && (
+      {!loading && data.length === 0 && (
         <Typo
           size={15}
           color={colors.neutral400}
@@ -76,8 +76,8 @@ export const TransactionList = ({
         </View>
       )}
     </View>
-  );
-};
+  )
+}
 
 //Transaction Items
 const TransactionItem = ({
@@ -86,10 +86,10 @@ const TransactionItem = ({
   handleClick,
 }: TransactionItemProps) => {
   let category =
-    item?.type == "income"
+    item?.type === "income"
       ? incomeCategory
-      : expenseCategories[item?.category!];
-  const IconComponent = category.icon;
+      : expenseCategories[item?.category!]
+  const IconComponent = category.icon
 
   //format transaction date
   const date = (item?.date as Timestamp)
@@ -99,13 +99,13 @@ const TransactionItem = ({
       minute: "numeric",
       day: "numeric",
       month: "short",
-    });
+    })
 
   return (
     <Animated.View
       entering={FadeInDown.delay(index * 70)
         .springify()
-        .damping(14)}
+        .damping(50)}
     >
       <TouchableOpacity onPress={() => handleClick(item)} style={styles.row}>
         <View style={[styles.icon, { backgroundColor: category.bgColor }]}>
@@ -131,9 +131,9 @@ const TransactionItem = ({
           <Typo
             size={17}
             fontWeight={"500"}
-            color={item?.type == "income" ? colors.primary : colors.rose}
+            color={item?.type === "income" ? colors.green : colors.rose}
           >
-            {`${item.type == "income" ? "+ $" : "- $"}${item.amount}`}
+            {`${item.type === "income" ? "+ $" : "- $"}${item.amount}`}
           </Typo>
           <Typo size={13} color={colors.neutral400}>
             {date}
@@ -141,8 +141,8 @@ const TransactionItem = ({
         </View>
       </TouchableOpacity>
     </Animated.View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -178,4 +178,4 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     gap: 3,
   },
-});
+})
