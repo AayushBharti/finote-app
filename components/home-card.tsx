@@ -1,46 +1,46 @@
+import { colors, spacingX, spacingY } from "@/constants/theme"
+import { useAuth } from "@/context/auth-context"
+import { useFirestoreData } from "@/hooks/use-firestore-data"
+import { WalletType } from "@/types"
+import { scale, verticalScale } from "@/utils/styling"
+import { router } from "expo-router"
+import { orderBy, where } from "firebase/firestore"
+import * as Icons from "phosphor-react-native"
+import React from "react"
 import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
   View,
-} from "react-native";
-import React from "react";
-import { colors, spacingX, spacingY } from "@/constants/theme";
-import { scale, verticalScale } from "@/utils/styling";
-import Typo from "./typo";
-import * as Icons from "phosphor-react-native";
-import { useAuth } from "@/context/auth-context";
-import { useFirestoreData } from "@/hooks/use-firestore-data";
-import { WalletType } from "@/types";
-import { orderBy, where } from "firebase/firestore";
-import { router } from "expo-router";
+} from "react-native"
+import Typo from "./typo"
 
 const HomeCard = () => {
-  const { user } = useAuth();
+  const { user } = useAuth()
 
   // Fetch wallet data
   const walletConstraints = user?.uid
     ? [where("uid", "==", user.uid), orderBy("created", "desc")]
-    : [];
+    : []
 
   const {
     data: wallets,
     error,
     loading: walletLoading,
-  } = useFirestoreData<WalletType>("wallets", walletConstraints, !!user?.uid);
+  } = useFirestoreData<WalletType>("wallets", walletConstraints, !!user?.uid)
 
   // Calculate total balance
-  const getTotalBalanle = () => {
+  const getTotalBalance = () => {
     return wallets.reduce(
       (totals: any, item: WalletType) => {
-        totals.balance = totals.balance + Number(item.amount);
-        totals.income = totals.income + Number(item.totalIncome);
-        totals.expenses = totals.expenses + Number(item.totalExpenses);
-        return totals;
+        totals.balance = totals.balance + Number(item.amount)
+        totals.income = totals.income + Number(item.totalIncome)
+        totals.expenses = totals.expenses + Number(item.totalExpenses)
+        return totals
       },
-      { balance: 0, income: 0, expenses: 0 }
-    );
-  };
+      { balance: 0, income: 0, expenses: 0 },
+    )
+  }
   return (
     <ImageBackground
       source={require("@/public/images/card.png")}
@@ -63,7 +63,7 @@ const HomeCard = () => {
             </TouchableOpacity>
           </View>
           <Typo size={30} color={colors.black} fontWeight={"bold"}>
-            $ {walletLoading ? "----" : getTotalBalanle()?.balance?.toFixed(2)}
+            $ {walletLoading ? "----" : getTotalBalance()?.balance?.toFixed(2)}
           </Typo>
         </View>
         {/* //total income expense */}
@@ -85,7 +85,7 @@ const HomeCard = () => {
             <View style={{ alignSelf: "center" }}>
               <Typo size={15} color={colors.green} fontWeight={"600"}>
                 ${" "}
-                {walletLoading ? "----" : getTotalBalanle()?.income?.toFixed(2)}
+                {walletLoading ? "----" : getTotalBalance()?.income?.toFixed(2)}
               </Typo>
             </View>
           </View>
@@ -108,7 +108,7 @@ const HomeCard = () => {
                 ${" "}
                 {walletLoading
                   ? "----"
-                  : getTotalBalanle()?.expenses?.toFixed(2)}
+                  : getTotalBalance()?.expenses?.toFixed(2)}
               </Typo>
             </View>
           </View>
@@ -116,10 +116,10 @@ const HomeCard = () => {
         </View>
       </View>
     </ImageBackground>
-  );
-};
+  )
+}
 
-export default HomeCard;
+export default HomeCard
 
 const styles = StyleSheet.create({
   bgImage: {
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: spacingY._7,
   },
-});
+})
