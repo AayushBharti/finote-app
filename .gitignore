@@ -19,6 +19,7 @@ expo-env.d.ts
 *.mobileprovision
 
 ios
+.dust
 
 # env files
 .env
